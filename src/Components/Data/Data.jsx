@@ -15,7 +15,7 @@ import Torchik from "../../Assets/Torchik.png";
 import Mudkip from "../../Assets/Mudkip.png";
 
 export default function Data(props) {
-    const [Propsstate, setPropstate] = useState(props.pokemon)
+    const [Propsstate] = useState(props.pokemon)
   const [image, setImagestate] = useState();
 
   useEffect(()=>{
