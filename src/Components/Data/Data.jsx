@@ -15,39 +15,40 @@ import Torchik from "../../Assets/Torchik.png";
 import Mudkip from "../../Assets/Mudkip.png";
 
 export default function Data(props) {
+    const [Propsstate, setPropstate] = useState(props.pokemon)
   const [image, setImagestate] = useState();
 
   useEffect(()=>{
    
-        if(props.pokemon === "Bulbo" ){
+        if(Propsstate === "Bulbo" ){
             setImagestate(bulbo)
         }
-        if(props.pokemon === "Charmendar" ){
+        if(Propsstate === "Charmendar" ){
             setImagestate(charmendar)
         }
-        if(props.pokemon === "Squirtle" ){
+        if(Propsstate === "Squirtle" ){
             setImagestate(Squrt)
         }
-        if(props.pokemon === "Chikorita" ){
+        if(Propsstate === "Chikorita" ){
             setImagestate(Chikorita)
         }
-        if(props.pokemon === "Cyndaquil" ){
+        if(Propsstate === "Cyndaquil" ){
             setImagestate(Cydaquil)
         }
-        if(props.pokemon === "Totodyle" ){
+        if(Propsstate === "Totodyle" ){
             setImagestate(Totodyle)
         }
-        if(props.pokemon === "Mudkip" ){
+        if(Propsstate === "Mudkip" ){
             setImagestate(Mudkip)
         }
-        if(props.pokemon === "Torchik" ){
+        if(Propsstate === "Torchik" ){
             setImagestate(Torchik)
         }
-        if(props.pokemon === "Treeko" ){
+        if(Propsstate === "Treeko" ){
             setImagestate(Treeko)
         }
 
-  }, [])
+  },[image,Propsstate])
   return (
     <CardWrap>
       <div className="cross" onClick={() => props.stateReset()}>
