@@ -111,10 +111,10 @@ const CardWrapper = styled.div`
       padding: 5px 10px;
       border-radius: 15px;
       gap: 2px;
-      background-color: lightgray;
       cursor: pointer;
-      :hover {
-        background-color: #45d1f0;
+      input {
+        width: 60px;
+        border: none;
       }
       .cross {
         margin-top: 3px;

@@ -39,9 +39,10 @@ export default function Home() {
   const [dataPageState, setDataPageState] = useState(false);
   const [total, setTotal] = useState(0);
   const [data, setData] = useState([]);
+  const [editState, setEditState] = useState({state : false, index : null });
 
   const imgData = [
-//     Starter pokemon by region are Kanto: Bulbasaur, Charmander, Squirtle. 
+    //     Starter pokemon by region are Kanto: Bulbasaur, Charmander, Squirtle.
 
     {
       id: 1,
@@ -62,7 +63,7 @@ export default function Home() {
       imgUrl: Squrt,
     },
     //Kanto, Jhoto and Hoenn
-    // Jhoto: Chikorita, Cyndaquil, Totodyle. 
+    // Jhoto: Chikorita, Cyndaquil, Totodyle.
 
     {
       id: 4,
@@ -82,7 +83,7 @@ export default function Home() {
       pokemon: "Totodyle",
       imgUrl: Totodyle,
     },
-// Hoenn: Treeko, Torchik, Mudkip
+    // Hoenn: Treeko, Torchik, Mudkip
     {
       id: 7,
       name: "Hoenn",
@@ -124,10 +125,33 @@ export default function Home() {
       setRegionName("Hoenn");
     }
   };
-  const setDataFinal = (name, Quantity, Price) => {
-    setData([...data, { name: name, Quantity: Quantity, Price: Price }]);
-    setTotal(total + Price);
+  const setDataFinal = (name, Quantity, Price, Bag,pokeballVal) => {
+    if (editState.state) {
+      console.log("edit");
+      let Temp = [...data]
+      Temp[editState.index] = { name: name, Quantity: Quantity, Price: Price, Bag: Bag, val:pokeballVal }
+      setData(Temp)
+      setEditState({
+        state:false,
+        index:null
+      })
+      setTotal(total + Price);
+    } else {
+      setData([
+        ...data,
+        { name: name, Quantity: Quantity, Price: Price, Bag: Bag, val:pokeballVal },
+      ]);
+      setTotal(total + Price);
+    }
   };
+  const editStateMange = (id) =>{
+    setEditState ({
+      index: id,
+      state: true
+    })
+    setTotal(total-data[id].Price)
+    setOrderPageState(true)
+  }
   const resetData = (index) => {
     var Temp = data;
     setTotal(total - data[index].Price);
@@ -233,11 +257,17 @@ export default function Home() {
               onClick={() => setOrderPageState(true)}
             />
           </div>
+
           <div className="dataDisp">
             {data.map((items, index) => (
-              <div className="dataItem" key={index}>
-                <p>{items.name}:</p>
+              <div
+                className="dataItem"
+                key={index}
+                style={{ backgroundColor: items.Bag ? "#45d1f0" : "lightgray" }}
+                onClick={() => editStateMange(index)}
+              >
                 <p>{items.Quantity}</p>
+                <p>{items.name}</p>
                 <div className="cross">
                   <CloseRoundedIcon
                     fontSize="12px"
@@ -259,20 +289,22 @@ export default function Home() {
       {orderPageState && (
         <Order
           data={(orderPageState) => setOrderPageState(orderPageState)}
-          setFinalData={(name, Quantity, Price) =>
-            setDataFinal(name, Quantity, Price)
+          setFinalData={(name, Quantity, Price, Bag,pokeballVal) =>
+            setDataFinal(name, Quantity, Price, Bag,pokeballVal)
           }
+          editState= {editState.state}
         />
       )}
       {dataPageState && (
-        <Data 
-        state={dataPageState} 
-        stateReset={() => dataPage()}
-        name = {name}
-        region = {regionName}
-        distance = {distance}
-        pokemon = {pokemon} 
-        inventory = {data}/>
+        <Data
+          state={dataPageState}
+          stateReset={() => dataPage()}
+          name={name}
+          region={regionName}
+          distance={distance}
+          pokemon={pokemon}
+          inventory={data}
+        />
       )}
     </PageWrapper>
   );

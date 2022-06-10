@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, {  useEffect, useState } from "react";
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 import { CardWrap } from "./Style";
 import {
@@ -16,10 +16,19 @@ export default function Order(props) {
   const [pokevalues, setPokebalValues] = useState({
     name: "",
     value: 0,
+    bag: false,
   });
+  const [editState, setEditState] = useState('Place')
   const [pokeBalls, setpokeBalls] = useState(0);
   const [needBag, setNeedBag] = useState(false);
 
+
+  useEffect(()=>{
+    if(props.editState){
+      setEditState('Edit')
+    }
+    
+  },[props])
   const BagState = () => {
     if (needBag) {
       setNeedBag(false);
@@ -31,6 +40,7 @@ export default function Order(props) {
     setOpenStatus(false);
     props.data(false);
   };
+ 
   //   Poke Ball: $5 Each
   // Great Ball: $10 Each
   // Super Potion: $10 Each
@@ -67,8 +77,7 @@ export default function Order(props) {
   const finalSetState = () => {
     setPageDisplatState();
     const Fprice = pokeBalls * pokevalues.value + (needBag ? 2 : 0);
-    props.setFinalData(pokevalues.name,pokevalues.value,Fprice)
-    
+    props.setFinalData(pokevalues.name, pokeBalls, Fprice,needBag,pokeballVal);
   };
 
   if (openStatus) {
@@ -77,7 +86,7 @@ export default function Order(props) {
         <div className="cross" onClick={() => setPageDisplatState()}>
           <CloseRoundedIcon />
         </div>
-        <div className="heading row">Place Your Order </div>
+        <div className="heading row"> {editState} Your Order </div>
         <div className="subheading">
           we will use this info to pack your order!
           <p style={{ fontSize: "14px" }}> Muhahahaha</p>
